@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--日志等级：ALL < TRACE < DEBUG < INFO < WARN < ERROR < FATAL < OFF-->
+
+<!--
+   monitorInterval:自动重新载入配置文件时间间隔
+   status:log4j2自身内部的日志等级
+-->
+<Configuration status="WARN">
+
+    <!--配置多个输出地点，可复用-->
+    <Appenders>
+
+        <!--Console 输出到控制台-->
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout
+                    pattern="[%d{HH:mm:ss}] [Thread %t] [Level %-5level] [Name %logger{36}] - %msg%n"/>
+        </Console>
+
+        <!--File 输出到文件；
+        append:决定追加写入还是覆盖写入（程序重启后）
+        -->
+        <File name="root_file_log" fileName="log/root.log" append="true">
+            <PatternLayout
+                    pattern="[%d{HH:mm:ss}] [Thread %t] [Level %-5level] [Name %logger{36}] - %msg%n"/>
+        </File>
+
+        <File name="pack1_file_log" fileName="log/pack1.log" append="true">
+            <PatternLayout
+                    pattern="[%d{HH:mm:ss}] [Thread %t] [Level %-5level] [Name %logger{36}] - %msg%n"/>
+        </File>
+
+    </Appenders>
+
+    <!--单独配置每个包中所有的的logger实例-->
+    <Loggers>
+
+        <!--logger实例默认配置-->
+        <Root level="debug">
+            <AppenderRef ref="Console"/>
+            <!--<AppenderRef ref="root_file_log"/>-->
+        </Root>
+
+        <!--&lt;!&ndash;name指定配置适用的包; additivity决定是否要继承Root appender 配置&ndash;&gt;-->
+        <!--<Logger name="com.pack1"-->
+        <!--        level="debug"-->
+        <!--        additivity="false">-->
+        <!--    <AppenderRef ref="Console"/>-->
+        <!--    <AppenderRef ref="pack1_file_log"/>-->
+        <!--</Logger>-->
+
+    </Loggers>
+</Configuration>
