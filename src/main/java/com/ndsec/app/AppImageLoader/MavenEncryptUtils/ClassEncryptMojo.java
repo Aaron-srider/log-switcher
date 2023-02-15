@@ -89,6 +89,10 @@ public class ClassEncryptMojo extends AbstractMojo {
                         getLog().debug("line is a log line, process it");
                         getLog().info("uncomment log line: " + line.getStr());
                         line.stripCommentFlag();
+                        getLog().info("request for java file update");
+
+
+                        line.requestUpdateJavaFile();
                         getLog().info("line processing result: " + line.getStr());
                     } else {
                         getLog().debug("line is not a log line, don't process");
@@ -107,6 +111,9 @@ public class ClassEncryptMojo extends AbstractMojo {
                         getLog().debug("line is not a log line, process it");
                         getLog().info("comment log line: " + line.getStr());
                         line.comment();
+                        getLog().info("request for java file update");
+
+                        line.requestUpdateJavaFile();
                         getLog().info("line processing result: " + line.getStr());
                     } else {
                         getLog().debug("line is a log line, don't process");

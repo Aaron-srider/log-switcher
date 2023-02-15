@@ -10,9 +10,9 @@ import lombok.extern.slf4j.Slf4j;
 public class LogSwitherTestApplication {
 
 	public static void main(String[] args) {
- log.debug("hello");
- log.info("ghlasjdkfajsfhljkas");
-		TestClass test = new TestClass();
+//  		log.debug("hello");
+//  		log.info("ghlasjdkfajsfhljkas");
+		// TestClass test = new TestClass();
 		SpringApplication.run(LogSwitherTestApplication.class, args);
 	}
 

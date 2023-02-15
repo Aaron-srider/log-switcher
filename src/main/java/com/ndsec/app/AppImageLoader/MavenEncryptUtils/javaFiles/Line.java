@@ -88,29 +88,30 @@ public class Line {
     }
 
     public boolean isLogLine() {
-        this.str = this.str.trim();
+        String copyStr = new String(this.str);
+        copyStr = copyStr.trim();
 
-        if (startWithCommentFlag()) {
-            stripCommentFlag();
-            cleanStartWhite();
+        if (copyStr.startsWith("//")) {
+            copyStr = strAfterStripCommentFlag();
+            copyStr = cleanStartWhite(copyStr);
         }
 
-        if (str.startsWith("log.debug")) {
+        if (copyStr.startsWith("log.debug")) {
             return true;
-        } else if (str.startsWith("log.info")) {
+        } else if (copyStr.startsWith("log.info")) {
             return true;
-        } else if (str.startsWith("log.warn")) {
+        } else if (copyStr.startsWith("log.warn")) {
             return true;
-        } else if (str.startsWith("log.trace")) {
+        } else if (copyStr.startsWith("log.trace")) {
             return true;
-        } else if (str.startsWith("log.error")) {
+        } else if (copyStr.startsWith("log.error")) {
             return true;
         }
         return false;
     }
 
-    private void cleanStartWhite() {
-        this.str = this.str.trim();
+    private String cleanStartWhite(String str) {
+        return str.trim();
     }
 
     public void stripCommentFlag() {
@@ -119,10 +120,39 @@ public class Line {
         }
         int commentFlagLen = getCommentFlagLength();
         str = str.substring(commentFlagLen, str.length());
+    }
+
+    public String strAfterStripCommentFlag() {
+        String copy = new String(this.str);
+        copy = copy.trim();
+        if (!copy.startsWith("//")) {
+            return new String(this.str.trim());
+        }
+        int commentFlagLen = getCommentFlagLength();
+        String strAfterStripCommentFlag = str.substring(commentFlagLen, str.length());
+        return strAfterStripCommentFlag;
+    }
+
+    public static void main(String[] args) {
+        Line line = new Line();
+        line.setStr("    // log.debug");
+        System.out.println(line.isLogLine());
+        System.out.println(line.strAfterStripCommentFlag());
+        ;
+
+        line.setStr(" // Test");
+        System.out.println(line.isLogLine());
+        System.out.println(line.strAfterStripCommentFlag());
+        ;
+
+    }
+
+    public void requestUpdateJavaFile() {
         javafile.requestUpdate(this);
     }
 
     private int getCommentFlagLength() {
+        str = this.str.trim();
         int i = 0;
         while (nextIsSlash(i)) {
             i++;
@@ -136,7 +166,7 @@ public class Line {
     }
 
     private boolean startWithCommentFlag() {
-        return str.startsWith("//");
+        return str.trim().startsWith("//");
     }
 
     public boolean isNotLogLine() {
@@ -148,7 +178,6 @@ public class Line {
             return;
         }
         str = "// " + str;
-        javafile.requestUpdate(this);
     }
 
 }
